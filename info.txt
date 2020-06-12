@@ -1,0 +1,16 @@
+// para compilar
+make all
+// para vaciar
+make clear
+//para insertar modulo
+sudo insmod <nombre_archivo>.ko
+// para ver los mensajes 
+dmesg
+// para ver el archivo
+// ira la proc
+cd /proc
+cat nombre
+//listar los modulos
+lsmod
+// quitar modulo
+sudo rmmod <nombre>
