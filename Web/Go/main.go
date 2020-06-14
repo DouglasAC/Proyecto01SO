@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"time"
 	"html/template"
+	"os/exec"
 )
 
 
@@ -22,10 +23,16 @@ type PageVariables struct {
 	Time         string
 }
 
+type dataCpu struct
+{
+	Total 	float64
+}
+
 func main(){
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	http.HandleFunc("/", HomePage)
 	http.HandleFunc("/ram", obtenerRam)
+	http.HandleFunc("/cpu", obtenerCpu)
 	fmt.Println("puerto 3000")
 	http.ListenAndServe(":3000", nil)
 }
@@ -84,4 +91,35 @@ func obtenerRam(w http.ResponseWriter, r *http.Request) {
     }else{
        return
     }    
+}
+
+func obtenerCpu(w http.ResponseWriter, r *http.Request) {
+	//Obtener lista del porcentaje de uso del los cpus
+	ps, err := exec.Command("ps", "-eo","%cpu").Output()    
+    if(err != nil){
+        return
+    }else{ 
+		//Obtener un listado 
+        listaProcesos := strings.Split(string(ps),"\n") 
+        var totalUso float64 = 0.0
+        for i, proceso := range listaProcesos{
+            if(i != 0 ){
+                cpuPorCiento    := strings.Replace(proceso," ","",-1)
+                cpuPC, err      := strconv.ParseFloat(cpuPorCiento, 64)
+                if err == nil {
+                    totalUso += cpuPC
+                }
+            }
+        }
+        jsonResponse2, errorJsonCpu  := json.Marshal(dataCpu{totalUso})
+        if errorJsonCpu != nil {
+            http.Error(w, errorJsonCpu.Error(), http.StatusInternalServerError)
+            fmt.Fprintf(w, "jfdksljf")
+            return
+        }
+        w.Header().Set("Content-Type", "application/json")
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.WriteHeader(http.StatusOK)
+        w.Write(jsonResponse2)
+    }
 }

@@ -10,16 +10,39 @@
         <script src="public/morris.min.js" charset="utf-8"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="public/tab.css">
         <title>Proyecto 01</title>
     </head>
     <body onload="leerRam()">
-        <div class="container">
-            <h1>Datos de la memoria Ram</h1>
-            <p id="totalRam">Total de memoria Ram:</p>
-            <p id="memoriaC">Total de memoria consumida:</p>
-            <p id="memoriaP">Porcentaje de Consumo:</p>
-            <div id="graficaRam"></div>
-
+        <div class="tab" id="tabs">
+            <button id="btnProcesos" onclick="cambiar('procesos')" class="tabslink active">
+                Procesos
+              </button>
+              <button id="btnCpu" onclick="cambiar('cpu')" class="tabslink">
+                Cpu
+              </button>
+              <button id="btnRam" onclick="cambiar('ram')"  class="tabslink">
+                Memoria Ram
+              </button>
+              
+        </div>
+        <div class="container-fluid">
+            <div id="ram" style="display: none;">
+                <h1>Datos de la memoria Ram</h1>
+                <p id="totalRam">Total de memoria Ram:</p>
+                <p id="memoriaC">Total de memoria consumida:</p>
+                <p id="memoriaP">Porcentaje de Consumo:</p>
+                <div id="graficaRam"></div>
+            </div>
+            <div id="cpu" style="display: none;">
+                <h1>Monitor Cpu</h1>
+                <p id="cpuP">Porcentaje de Consumo de los cpus: </p>
+                <div id="graficaCpu"></div>
+            </div>
+            <div id="procesos" style="display: block;">
+                <h1>Monitor de Procesos</h1>
+                
+            </div>
         </div>
         <script src="public/graficas.js"></script>
     </body>
