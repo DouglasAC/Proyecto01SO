@@ -47,9 +47,9 @@ static int escribirArchivo(struct seq_file * archivo, void *v) {
         }else{
             strcpy(estado, "Stopped");
         }
-        strcpy(mensaje,"\nPID: %d Nombre: %s Estado: ");
+        strcpy(mensaje,"\nPID: %d, Nombre: %s, User: %d, Estado: ");
         strcat(mensaje,estado);
-        seq_printf(archivo, mensaje, task->pid, task->comm);
+        seq_printf(archivo, mensaje, task->pid, task->comm, task->cred->uid);
         list_for_each(list, &task->children){              
  
             task_child = list_entry( list, struct task_struct, sibling );   
@@ -68,9 +68,9 @@ static int escribirArchivo(struct seq_file * archivo, void *v) {
             }else{
                 strcpy(estado, "Stopped");
             }
-            strcpy(mensaje,"\nHijo de %s,%d, PID: %d, Nombre: %s, Estado: ");
+            strcpy(mensaje,"\nHijo de %s,%d, PID: %d, Nombre: %s, User: %d, Estado: ");
             strcat(mensaje, estado);
-            seq_printf(archivo, mensaje,task->comm, task->pid, task_child->pid, task_child->comm);
+            seq_printf(archivo, mensaje,task->comm, task->pid, task_child->pid, task_child->comm, task_child->cred->uid);
         }
     }    
     return 0;

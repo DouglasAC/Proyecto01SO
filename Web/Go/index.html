@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="public/tab.css">
         <title>Proyecto 01</title>
     </head>
-    <body onload="leerRam()">
+    <body onload="leerProcesos()">
         <div class="tab" id="tabs">
             <button id="btnProcesos" onclick="cambiar('procesos')" class="tabslink active">
                 Procesos
@@ -41,7 +41,15 @@
             </div>
             <div id="procesos" style="display: block;">
                 <h1>Monitor de Procesos</h1>
-                
+                <p id="Running">Running:</p>
+                <p id="Interruptible">Interruptible:</p>
+                <p id="Zombie">Zombie:</p>
+                <p id="Stopped">Stopped:</p>
+                <p id="Swapping">Swapping:</p>
+                <p id="Total">Total:</p>
+                <div id="tabla">
+
+                </div>
             </div>
         </div>
         <script src="public/graficas.js"></script>

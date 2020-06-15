@@ -135,3 +135,56 @@ var grafRam = new Morris.Line({
   }
 
   setInterval('leerCpu()',1000);
+
+  function leerProcesos()
+  {
+    $.ajax({
+      async: false,
+      contentType: 'application/json;  charset=utf-8',
+      type: "GET",
+      url: "/procesos",
+      data: JSON.stringify({
+          
+      }),
+      si: false,
+      success: function (data, textStatus, jqXHR) {
+        let datos = JSON.stringify(data);
+        let dat = JSON.parse(datos)
+        
+        document.getElementById("Running").innerHTML = "Running: "+ dat.Running;
+        document.getElementById("Interruptible").innerHTML = "Interruptible: "+ dat.Interruptible;
+        document.getElementById("Zombie").innerHTML = "Zombie: "+ dat.Zombie;
+        document.getElementById("Stopped").innerHTML = "Stopped: "+ dat.Stopped;
+        document.getElementById("Swapping").innerHTML = "Swapping: "+ dat.Swapping;
+        document.getElementById("Total").innerHTML = "Total: "+ dat.Total;
+        
+        document.getElementById("tabla").innerHTML = dat.Tabla;
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error")
+      }
+
+    });
+  }
+  setInterval('leerProcesos()',2000);
+
+  function parar(codigo)
+  {
+    console.log(parseInt(codigo))
+    $.ajax({
+      async: false,
+      contentType: 'application/json;  charset=utf-8',
+      type: "POST",
+      url: "/kill",
+      data: JSON.stringify({
+          Numero: parseInt(codigo)
+      }),
+      success: function (data, textStatus, jqXHR) {
+        leerProcesos()
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error")
+      }
+
+    });
+  }
